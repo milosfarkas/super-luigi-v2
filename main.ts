@@ -1,20 +1,13 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    if (Luigi.overlapsWith(Toad)) {
-        game.gameOver(true)
-    }
+    game.gameOver(true)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
-    if (Luigi.overlapsWith(Toad)) {
-        game.gameOver(true)
-    }
+    game.gameOver(true)
 })
-controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    Toad.vy += -400
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    Luigi.vy += -400
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
-    game.gameOver(false)
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleBlueCrystal, function (sprite, location) {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
@@ -23,28 +16,18 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 info.onLifeZero(function () {
     game.gameOver(false)
 })
-controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
-    Luigi.vy += -400
-})
-controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Repeated, function () {
+controller.A.onEvent(ControllerButtonEvent.Repeated, function () {
     Luigi.vy += -100
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`g`, function (sprite, location) {
-    if (Luigi.overlapsWith(Toad)) {
-        game.gameOver(true)
-    }
-})
-controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
-	
+    game.gameOver(true)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleRedCrystal, function (sprite, location) {
     info.changeLifeBy(-1)
 })
-let Toad: Sprite = null
 let Luigi: Sprite = null
-let myEnemy = sprites.create(assets.image`koopa`, SpriteKind.Enemy)
 music.play(music.stringPlayable("D E C G - E - C ", 120), music.PlaybackMode.LoopingInBackground)
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level4`)
 scene.setBackgroundImage(img`
     fffffffcbccffffffffffcfbddddddddddd111111111111111111111111dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddbffcddffffffcfcfffff
     fffffffccffffcffffffbfddddddddd11111111111111111111111111111111ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfccdbffffffffffffff
@@ -168,11 +151,8 @@ scene.setBackgroundImage(img`
     fffffffffffffffffffffffffffffffffbffffffbffffffffffffffffffffffbfcffffcfffffffffffffffcffffffffffffffffffffffffffffffffffffffffffffffffffffdddffffffffffccffffff
     `)
 Luigi = sprites.create(assets.image`Luigi`, SpriteKind.Player)
-Toad = sprites.create(assets.image`Toad`, SpriteKind.Player)
-controller.player1.moveSprite(Luigi, 100, 0)
-controller.player2.moveSprite(Toad, 150, 0)
+controller.moveSprite(Luigi, 100, 0)
 Luigi.ay = 500
-Toad.ay = 500
 info.setLife(5)
 animation.runImageAnimation(
 Luigi,
@@ -180,16 +160,4 @@ assets.animation`animLuigi`,
 180,
 true
 )
-animation.runImageAnimation(
-Toad,
-assets.animation`Toad animation`,
-180,
-true
-)
 scene.cameraFollowSprite(Luigi)
-forever(function () {
-    myEnemy.setVelocity(50, 0)
-    pause(500)
-    myEnemy.setVelocity(-50, 0)
-    pause(500)
-})
